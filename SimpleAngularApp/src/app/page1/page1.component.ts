@@ -7,9 +7,13 @@ import { Component, OnInit } from '@angular/core';
 })
 export class Page1Component implements OnInit {
 
+  pageName = 'Page 1';
+
   constructor() { }
 
   ngOnInit(): void {
+    // This callback proves that template expressions are dynamic
+    setTimeout(() => { this.pageName = 'First page' }, 5000);
   }
 
 }
