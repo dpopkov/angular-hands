@@ -1,5 +1,7 @@
-<app-header></app-header>
-<app-page1></app-page1>
-<app-page2></app-page2>
-<app-page3></app-page3>
+<!-- Give the component a template reference -->
+<app-header #headerComponent></app-header>
+<!-- Use template reference and HTML attribute -->
+<app-page1 [hidden]="headerComponent.pageRequested !== 1"></app-page1>
+<app-page2 [hidden]="headerComponent.pageRequested !== 2"></app-page2>
+<app-page3 [hidden]="headerComponent.pageRequested !== 3"></app-page3>
 <app-footer></app-footer>
