@@ -1,4 +1,4 @@
-import {Component, ViewChild} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {FooterComponent} from "./footer/footer.component";
 
 @Component({
@@ -6,11 +6,17 @@ import {FooterComponent} from "./footer/footer.component";
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'SimpleAngularApp';
 
   @ViewChild('footer')
   footerComponent: FooterComponent;
+
+  startTime: string;
+
+  ngOnInit(): void {
+    this.startTime = new Date().toString();
+  }
 
   updateLastAccessed(): void {
     console.log('Button "Update last accessed" was clicked');
