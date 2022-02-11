@@ -131,4 +131,23 @@ export class AppComponent {
     console.log('myBook = ', myBook);  // method toString is not used here
     console.log('myBook concatenated = ' + myBook);
   }
+
+  exploringObjectEquality(): void {
+    console.log('1 == 1', 1 == 1);
+    console.log('1 === 1', 1 === 1);
+    // @ts-ignore
+    console.log('\'1\' == 1', `1` == 1); // Fails to compile without @ts-ignore comment
+    // @ts-ignore
+    console.log('\'1\' === 1', `1` === 1); // Fails to compile without @ts-ignore comment
+  }
+
+  exploringUndefined(): void {
+    let myValue: number;  // not initialized variable
+    // @ts-ignore
+    console.log('myValue === null :', myValue === null);
+    // @ts-ignore
+    console.log('myValue === undefined :', myValue === undefined);
+    // @ts-ignore
+    console.log('myValue == null :', myValue == null);
+  }
 }
