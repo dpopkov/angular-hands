@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {Book, Video} from "../model/Model";
 
 @Component({
   selector: 'app-root',
@@ -79,5 +80,55 @@ export class AppComponent {
       console.log('num = ' + num);
       num--;
     }
+  }
+
+  understandingJavaScriptObjects(): void {
+    let myCustomer = {
+      firstName: 'Jane Doe',
+      age: 29
+    }
+    console.log('myCustomer = ', myCustomer);
+    console.log('typeof myCustomer = ', (typeof myCustomer));
+  }
+
+  creatingClasses(): void {
+    let myVideo : Video;
+    const myBook = new Book('James');
+    console.log('myBook = ', myBook);
+    myBook.title = 'Core Something';
+    console.log('myBook = ', myBook);
+    myBook.author = 'Jane'
+    console.log('myBook = ', myBook);
+
+    myBook.price = -42;
+    console.log('myBook = ', myBook);
+    myBook.price = 42;
+    console.log('myBook = ', myBook);
+  }
+
+  exploringMethods(): void {
+    const myBook = new Book('James', 'Effective Something');
+    myBook.price = 100;
+    console.log('myBook.priceWithTax(.2) = ' + myBook.priceWithTax(.2));
+  }
+
+  exploringArrowFunctions(): void {
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    const oddNumbers = numbers.filter(
+      (num) => {
+        return num % 2 === 1;
+      });
+    console.log('oddNumbers = ' + oddNumbers);
+    const evenNumbers = numbers.filter(num => num % 2 === 0);
+    console.log('evenNumbers = ' + evenNumbers);
+  }
+
+  usingStringTemplates(): void {
+    const myBook = new Book('James', 'Effective Something');
+    console.log(`myBook.toString() = ${myBook.toString()}`);
+    console.log(`myBook = ${myBook}`);
+    console.log(myBook);  // method toString is not used here
+    console.log('myBook = ', myBook);  // method toString is not used here
+    console.log('myBook concatenated = ' + myBook);
   }
 }
