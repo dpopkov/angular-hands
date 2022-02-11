@@ -1,3 +1,17 @@
+export enum SubjectArea {
+  ART,
+  HISTORY,
+  SCIENCE,
+  LITERATURE
+}
+
+export enum CustomSubjectArea {
+  ART = 'Arts and Crafts',
+  HISTORY = 'History',
+  SCIENCE = 'Science and Maths',
+  LITERATURE = 'Classic Literature'
+}
+
 export class Book {
   readonly id: number = 101;
   title: string;

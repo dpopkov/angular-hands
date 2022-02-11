@@ -1,5 +1,5 @@
 import {Component} from '@angular/core';
-import {Book, Video} from "../model/Model";
+import {Book, Video, SubjectArea, CustomSubjectArea} from "../model/Model";
 
 @Component({
   selector: 'app-root',
@@ -149,5 +149,53 @@ export class AppComponent {
     console.log('myValue === undefined :', myValue === undefined);
     // @ts-ignore
     console.log('myValue == null :', myValue == null);
+  }
+
+  exploringEnums(): void {
+    console.log(SubjectArea.ART);      // 0
+    console.log(SubjectArea[SubjectArea.ART]);       // ART
+    console.log(SubjectArea.HISTORY);  // 1
+    console.log(SubjectArea[SubjectArea.HISTORY]);       // HISTORY
+  }
+
+  loopingThroughEnum(): void {
+    const enumArray = Object.keys(SubjectArea);
+    // This is only needed for enums without custom values
+    const enumValuesArray = enumArray.slice(enumArray.length / 2);
+    for (const value of enumValuesArray) {
+      console.log(value);
+    }
+  }
+
+  exploringCustomEnums(): void {
+    console.log(CustomSubjectArea.ART);
+    console.log(CustomSubjectArea.HISTORY);
+    console.log(CustomSubjectArea.SCIENCE);
+    console.log(CustomSubjectArea.LITERATURE);
+  }
+
+  loopingThroughCustomEnum(): void {
+    for (const label in CustomSubjectArea) {
+      // @ts-ignore
+      console.log('label:', label, ', custom value:', CustomSubjectArea[label]);
+    }
+  }
+
+  retrievingLabelFromValueInSimpleWay(): void {
+    let targetLabel;
+    for (const label in CustomSubjectArea) {
+      // @ts-ignore
+      if (CustomSubjectArea[label] === 'Science and Maths') {
+        targetLabel = label;
+      }
+    }
+    console.log('Found label for ', '"Science and Maths"', ' is ', targetLabel);
+  }
+
+  retrievingLabelFromValueInConciseWay(): void {
+    const targetValue = 'Science and Maths';
+    // @ts-ignore
+    const targetLabel = Object.keys(CustomSubjectArea).find(it => CustomSubjectArea[it] === targetValue);
+    console.log('Found label for ', '"Science and Maths"', ' is ', targetLabel);
   }
 }
