@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {DataService} from "../data.service";
+import {Book} from "../model/Book";
 
 @Component({
   selector: 'app-page1',
@@ -9,12 +10,17 @@ import {DataService} from "../data.service";
 export class Page1Component implements OnInit {
 
   pageName = 'Page 1';
+  books: Array<Book>;
+  numberOfBooksWrittenByJames: number;
 
-  constructor(public dataService: DataService) { }
+  constructor(private dataService: DataService) { }
 
   ngOnInit(): void {
     // This callback proves that template expressions are dynamic
     setTimeout(() => { this.pageName = 'First page' }, 5000);
+    this.books = this.dataService.books;
+    // This variable is not recalculated every time when the actual number of books is changed
+    this.numberOfBooksWrittenByJames = this.books.filter(it => it.author === 'James').length;
   }
 
   onButtonClick(): void {
