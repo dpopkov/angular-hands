@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {DataService} from "../data.service";
 
 @Component({
   selector: 'app-page1',
@@ -9,7 +10,7 @@ export class Page1Component implements OnInit {
 
   pageName = 'Page 1';
 
-  constructor() { }
+  constructor(public dataService: DataService) { }
 
   ngOnInit(): void {
     // This callback proves that template expressions are dynamic
