@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {EventEmitter, Injectable} from '@angular/core';
 import {Book} from "./model/Book";
 
 @Injectable({
@@ -7,6 +7,7 @@ import {Book} from "./model/Book";
 export class DataService {
 
   books: Array<Book>
+  bookAddedEvent = new EventEmitter<Book>();
 
   constructor() {
     this.books = new Array<Book>();
@@ -27,5 +28,10 @@ export class DataService {
     book3.author = 'James';
     book3.price = 4.99;
     this.books.push(book3);
+  }
+
+  addBook(book: Book) {
+    this.books.push(book);
+    this.bookAddedEvent.emit(book);
   }
 }

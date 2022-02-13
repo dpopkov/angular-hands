@@ -21,6 +21,16 @@ export class Page1Component implements OnInit {
     this.books = this.dataService.books;
     // This variable is not recalculated every time when the actual number of books is changed
     this.numberOfBooksWrittenByJames = this.books.filter(it => it.author === 'James').length;
+    this.dataService.bookAddedEvent.subscribe(
+      (newBook) => {
+        if (newBook.author === 'James') {
+          this.numberOfBooksWrittenByJames++;
+        }
+      },
+      (error) => {
+        console.error("Error when adding book:", error);
+      }
+    );
   }
 
   onButtonClick(): void {
