@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import { Subscription } from 'rxjs';
 import {DataService} from "../data.service";
 import {Book} from "../model/Book";
 
@@ -7,11 +8,13 @@ import {Book} from "../model/Book";
   templateUrl: './page1.component.html',
   styleUrls: ['./page1.component.css']
 })
-export class Page1Component implements OnInit {
+export class Page1Component implements OnInit, OnDestroy {
 
   pageName = 'Page 1';
   books: Array<Book>;
   numberOfBooksWrittenByJames: number;
+
+  subscription: Subscription;
 
   constructor(private dataService: DataService) { }
 
@@ -21,7 +24,7 @@ export class Page1Component implements OnInit {
     this.books = this.dataService.books;
     // This variable is not recalculated every time when the actual number of books is changed
     this.numberOfBooksWrittenByJames = this.books.filter(it => it.author === 'James').length;
-    this.dataService.bookAddedEvent.subscribe(
+    this.subscription = this.dataService.bookAddedEvent.subscribe(
       (newBook) => {
         if (newBook.author === 'James') {
           this.numberOfBooksWrittenByJames++;
@@ -34,6 +37,10 @@ export class Page1Component implements OnInit {
         console.log("Complete")
       }
     );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   onButtonClick(): void {
