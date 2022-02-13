@@ -31,7 +31,12 @@ export class DataService {
   }
 
   addBook(book: Book) {
-    this.books.push(book);
-    this.bookAddedEvent.emit(book);
+    console.log('Observable tries to addBook');
+    if (book.author === 'James') {
+      this.bookAddedEvent.error('Books by James are not allowed');
+    } else {
+      this.books.push(book);
+      this.bookAddedEvent.emit(book);
+    }
   }
 }

@@ -29,6 +29,9 @@ export class Page1Component implements OnInit {
       },
       (error) => {
         console.error("Error when adding book:", error);
+      },
+      () => {
+        console.log("Complete")
       }
     );
   }
