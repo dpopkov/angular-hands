@@ -22,4 +22,11 @@ describe('DataService', () => {
     // fail();
     expect(service.books.length).toBeGreaterThan(oldLength);
   });
+
+  it('check that the event emitter is firing an event when a book is added', () => {
+    spyOn(service.bookAddedEvent, 'emit');
+    const book = new Book();
+    service.addBook(book);
+    expect(service.bookAddedEvent.emit).toHaveBeenCalledWith(book);
+  });
 });

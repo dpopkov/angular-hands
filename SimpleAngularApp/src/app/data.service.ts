@@ -32,7 +32,7 @@ export class DataService {
   }
 
   addBook(book: Book) {
-    console.log('Observable tries to addBook');
+    console.log('Observable tries to addBook', book);
     if (book.author === 'James') {
       this.bookAddedEvent.error('Books by James are not allowed');
     } else {
