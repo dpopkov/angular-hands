@@ -5,4 +5,3 @@ Angular hands on for Java developers
 
 ## ExploringTypescript: [project](ExploringTypescript)
 
-test bare repo - delete after test
