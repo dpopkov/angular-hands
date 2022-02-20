@@ -6,3 +6,5 @@ Angular hands on for Java developers
 ## ExploringTypescript: [project](ExploringTypescript)
 
 ## Spring Backend App: [booking](booking)
+
+## Angular Frontend: [BookingClient](BookingClient)
