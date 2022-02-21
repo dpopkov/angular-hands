@@ -6,6 +6,11 @@ import { MenuComponent } from './menu/menu.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { RoomsComponent } from './admin/rooms/rooms.component';
 import { UsersComponent } from './admin/users/users.component';
+import {RouterModule, Routes} from "@angular/router";
+
+const routes: Routes = [
+  {path : 'admin/users', component : UsersComponent}
+];
 
 @NgModule({
   declarations: [
@@ -16,7 +21,8 @@ import { UsersComponent } from './admin/users/users.component';
     UsersComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    RouterModule.forRoot(routes)
   ],
   providers: [],
   bootstrap: [AppComponent]
