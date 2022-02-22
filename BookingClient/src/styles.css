@@ -1,3 +1,8 @@
+/* Make alla anchor tags look clickable, even if they do not have href attribute. */
+a {
+  cursor: pointer;
+}
+
 /* Calendar styles */
 .row-striped:nth-of-type(odd){
   background-color: #efefef;
@@ -12,4 +17,3 @@
 .row-striped {
   padding: 15px 0;
 }
-
