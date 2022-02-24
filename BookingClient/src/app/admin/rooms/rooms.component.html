@@ -13,17 +13,20 @@
       </tr>
       </thead>
       <tbody>
-      <tr *ngFor = "let room of rooms">
+      <tr *ngFor="let room of rooms">
         <td>{{ room.id }}</td>
         <td>{{ room.name }}</td>
         <td>
-          <button type="button" class="btn btn-primary">view</button>
+          <button type="button" class="btn btn-primary"
+                  (click)="setSelectedRoom(room.id)"
+          >view
+          </button>
         </td>
       </tr>
       </tbody>
     </table>
   </div>
   <div class="col-6">
-    ROOM DETAIL WILL GO HERE
+    <app-room-detail [room]="selectedRoom"></app-room-detail>
   </div>
 </div>
