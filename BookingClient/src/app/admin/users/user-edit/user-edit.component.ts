@@ -11,6 +11,8 @@ export class UserEditComponent implements OnInit {
   @Input()
   // @ts-ignore
   user: User;
+  // @ts-ignore
+  message: string;
 
   constructor() { }
 
