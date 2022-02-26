@@ -14,6 +14,8 @@ export class UsersComponent implements OnInit {
   users: Array<User>
   // @ts-ignore
   selectedUser: User;
+  // @ts-ignore
+  action: string;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -28,16 +30,20 @@ export class UsersComponent implements OnInit {
     this.route.queryParams.subscribe(
       (params) => {
         const idString = params['id'];
+        const action = params['action'];
         if (idString) {
           const idNumber = +idString;
           // @ts-ignore
           this.selectedUser = this.users.find(user => user.id === idNumber);
+          if (action) {
+            this.action = action;
+          }
         }
       }
     )
   }
 
   setSelectedUser(userId: number): void {
-    this.router.navigate(['admin', 'users'], {queryParams: {id: userId}});
+    this.router.navigate(['admin', 'users'], {queryParams: {id: userId, action: 'view'}});
   }
 }
