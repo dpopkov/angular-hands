@@ -40,4 +40,12 @@ export class DataService {
     this.users.push(user1);
     this.users.push(user2);
   }
+
+  updateUser(toUpdate: User): Observable<User> {
+    const originalUser = this.users.find((user) => user.id === toUpdate.id);
+    // @ts-ignore
+    originalUser.name = toUpdate.name;
+    // @ts-ignore
+    return of(originalUser);
+  }
 }
