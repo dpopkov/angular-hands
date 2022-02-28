@@ -30,20 +30,22 @@ export class UsersComponent implements OnInit {
     this.route.queryParams.subscribe(
       (params) => {
         const idString = params['id'];
-        const action = params['action'];
         if (idString) {
           const idNumber = +idString;
           // @ts-ignore
           this.selectedUser = this.users.find(user => user.id === idNumber);
-          if (action) {
-            this.action = action;
-          }
         }
+        this.action = params['action'];
       }
     )
   }
 
   setSelectedUser(userId: number): void {
     this.router.navigate(['admin', 'users'], {queryParams: {id: userId, action: 'view'}});
+  }
+
+  addUser(): void {
+    this.selectedUser = new User();
+    this.router.navigate(['admin', 'users'], {queryParams: {action: 'add'}});
   }
 }

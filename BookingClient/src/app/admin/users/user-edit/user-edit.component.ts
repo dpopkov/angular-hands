@@ -17,6 +17,8 @@ export class UserEditComponent implements OnInit {
   formUser: User;
   // @ts-ignore
   message: string;
+  // @ts-ignore
+  password: string;
 
   constructor(private dataService: DataService,
               private router: Router) {
@@ -27,11 +29,24 @@ export class UserEditComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.dataService.updateUser(this.formUser).subscribe(
-      (user) => {
-        // If we get that event it means that our user has been successfully updated
-        this.router.navigate(['admin', 'users'], {queryParams: {id: user.id, action: 'view'}});
-      }
-    );
+    if (this.formUser.id == null) {
+      this.dataService.addUser(this.formUser, this.password).subscribe(
+        (user) => {
+          // If we get that event it means that our user has been successfully added
+          this.navigateToView(user);
+        }
+      )
+    } else {
+      this.dataService.updateUser(this.formUser).subscribe(
+        (user) => {
+          // If we get that event it means that our user has been successfully updated
+          this.navigateToView(user);
+        }
+      );
+    }
+  }
+
+  private navigateToView(user: User) {
+    this.router.navigate(['admin', 'users'], {queryParams: {id: user.id, action: 'view'}});
   }
 }

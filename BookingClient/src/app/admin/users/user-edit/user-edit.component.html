@@ -12,8 +12,8 @@
 
   <div class="form-group" *ngIf="user.id == null">
     <label for="password">Password</label>
-    <!--todo: do not forget to ad attribute name for password input-->
-    <input type="password" class="form-control" id="password" placeholder="password">
+    <input type="password" class="form-control" id="password" placeholder="password"
+          [(ngModel)]="password" name="password">
     <div class="alert alert-danger">error message placeholder</div>
   </div>
 

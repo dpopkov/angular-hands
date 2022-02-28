@@ -48,4 +48,16 @@ export class DataService {
     // @ts-ignore
     return of(originalUser);
   }
+
+  addUser(newUser: User, password: string): Observable<User> {
+    let maxId = 0;
+    for (const user of this.users) {
+      if (user.id > maxId) {
+        maxId = user.id;
+      }
+    }
+    newUser.id = maxId + 1;
+    this.users.push(newUser);
+    return of(newUser);
+  }
 }
