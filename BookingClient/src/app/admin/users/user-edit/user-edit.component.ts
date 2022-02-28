@@ -21,6 +21,7 @@ export class UserEditComponent implements OnInit {
   password: string;
   // @ts-ignore
   passwordDouble: string;
+  nameIsValid = false;
 
   constructor(private dataService: DataService,
               private router: Router) {
@@ -28,6 +29,7 @@ export class UserEditComponent implements OnInit {
 
   ngOnInit(): void {
     this.formUser = Object.assign({}, this.user);
+    this.checkIfNameIsValid();
   }
 
   onSubmit(): void {
@@ -50,5 +52,9 @@ export class UserEditComponent implements OnInit {
 
   private navigateToView(user: User) {
     this.router.navigate(['admin', 'users'], {queryParams: {id: user.id, action: 'view'}});
+  }
+
+  checkIfNameIsValid(): void {
+    this.nameIsValid = this.formUser.name.trim().length > 0;
   }
 }
