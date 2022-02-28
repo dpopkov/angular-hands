@@ -19,6 +19,8 @@ export class UserEditComponent implements OnInit {
   message: string;
   // @ts-ignore
   password: string;
+  // @ts-ignore
+  passwordDouble: string;
 
   constructor(private dataService: DataService,
               private router: Router) {
