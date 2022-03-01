@@ -12,4 +12,12 @@ export class User {
       this.name = name;
     }
   }
+
+  isNew(): boolean {
+    return this.id == null;
+  }
+
+  isNotNew(): boolean {
+    return this.id != null;
+  }
 }
