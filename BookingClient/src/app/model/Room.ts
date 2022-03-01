@@ -1,13 +1,22 @@
 export class Room {
+  // @ts-ignore
   id: number;
+  // @ts-ignore
   name: string;
+  // @ts-ignore
   location: string;
   capacities: Array<LayoutCapacity>;
 
-  constructor(id: number, name: string, location: string) {
-    this.id = id;
-    this.name = name;
-    this.location = location;
+  constructor(name?: string, location?: string, id?: number) {
+    if (name) {
+      this.name = name;
+    }
+    if (location) {
+      this.location = location;
+    }
+    if (id) {
+      this.id = id;
+    }
     this.capacities = new Array<LayoutCapacity>();
   }
 

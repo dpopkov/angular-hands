@@ -14,6 +14,8 @@ export class RoomsComponent implements OnInit {
   rooms: Array<Room>;
   // @ts-ignore
   selectedRoom: Room;
+  // @ts-ignore
+  action: string;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -33,12 +35,21 @@ export class RoomsComponent implements OnInit {
           // @ts-ignore
           this.selectedRoom = this.rooms.find(room => room.id === idAsNumber);
         }
+        this.action = params['action'];
+        if (this.action === 'add') {
+          this.selectedRoom = new Room();
+          this.action = 'edit';
+        }
       }
     )
   }
 
   setSelectedRoom(roomId: number): void {
-    this.router.navigate(['admin', 'rooms'], {queryParams : { id: roomId}});
+    this.router.navigate(['admin', 'rooms'], {queryParams : { id: roomId, action: 'view'}});
+  }
+
+  addRoom(): void {
+    this.router.navigate(['admin', 'rooms'], {queryParams : { action: 'add'}});
   }
 
 }

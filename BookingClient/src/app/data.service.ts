@@ -25,11 +25,11 @@ export class DataService {
     const capacity2 = new LayoutCapacity(Layout.USHAPE, 20);
     const capacity3 = new LayoutCapacity(Layout.THEATER, 60);
 
-    const room1 = new Room(1, 'First Room', 'First Floor');
+    const room1 = new Room('First Room', 'First Floor', 1);
     room1.addLayoutCapacity(capacity1);
     room1.addLayoutCapacity(capacity2);
 
-    const room2 = new Room(2, 'Second Room', 'Third Floor');
+    const room2 = new Room('Second Room', 'Third Floor', 2);
     room2.addLayoutCapacity(capacity3);
 
     this.rooms.push(room1);
