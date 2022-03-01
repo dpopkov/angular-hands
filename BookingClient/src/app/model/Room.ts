@@ -23,6 +23,10 @@ export class Room {
   addLayoutCapacity(layoutCapacity: LayoutCapacity): void {
     this.capacities.push(layoutCapacity);
   }
+
+  isNew(): boolean {
+    return this.id == null;
+  }
 }
 
 export class LayoutCapacity {
