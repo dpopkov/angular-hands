@@ -60,4 +60,27 @@ export class DataService {
     this.users.push(newUser);
     return of(newUser);
   }
+
+  updateRoom(room: Room): Observable<Room> {
+    const originalRoom = this.rooms.find(r => r.id === room.id);
+    if (originalRoom) {
+      originalRoom.name = room.name;
+      originalRoom.location = room.location;
+      originalRoom.capacities = room.capacities;
+    }
+    // @ts-ignore
+    return of(originalRoom);
+  }
+
+  addRoom(newRoom: Room): Observable<Room> {
+    let maxId = 0;
+    for (const r of this.rooms) {
+      if (r.id > maxId) {
+        maxId = r.id;
+      }
+    }
+    newRoom.id = maxId + 1;
+    this.rooms.push(newRoom);
+    return of(newRoom);
+  }
 }
