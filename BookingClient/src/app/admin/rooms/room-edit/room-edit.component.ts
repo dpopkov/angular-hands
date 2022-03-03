@@ -1,15 +1,17 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnDestroy, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "../../../model/Room";
 import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {DataService} from "../../../data.service";
 import {Router} from "@angular/router";
+import {FormResetService} from "../../../form-reset.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-room-edit',
   templateUrl: './room-edit.component.html',
   styleUrls: ['./room-edit.component.css']
 })
-export class RoomEditComponent implements OnInit {
+export class RoomEditComponent implements OnInit, OnDestroy {
 
   @Input()
   // @ts-ignore
@@ -22,8 +24,12 @@ export class RoomEditComponent implements OnInit {
   // @ts-ignore
   roomForm: FormGroup;
 
+  // @ts-ignore
+  resetEventSubscription: Subscription;
+
   constructor(private formBuilder: FormBuilder, private dataService: DataService,
-              private router: Router) {
+              private router: Router,
+              private formResetService: FormResetService) {
     for(let layout of this.layouts) {
       // @ts-ignore
       let layoutDescription = Layout[layout];
@@ -35,11 +41,25 @@ export class RoomEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.initializeForm();
+    this.resetEventSubscription = this.formResetService.resetRoomFormEvent.subscribe(
+      room => {
+        this.room = room;
+        this.initializeForm();
+      }
+    )
+  }
+
+  ngOnDestroy(): void {
+    this.resetEventSubscription.unsubscribe();
+  }
+
+  private initializeForm() {
     this.roomForm = this.formBuilder.group(
-        {
-          roomName: [this.room.name, Validators.required],
-          roomLocation: [this.room.location, [Validators.required, Validators.minLength(2)]]
-        }
+      {
+        roomName: [this.room.name, Validators.required],
+        roomLocation: [this.room.location, [Validators.required, Validators.minLength(2)]]
+      }
     )
     for (const layoutKey of this.layoutKeys) {
       // @ts-ignore
