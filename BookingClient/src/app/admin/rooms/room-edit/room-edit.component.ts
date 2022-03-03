@@ -1,6 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "../../../model/Room";
-import {FormBuilder, FormControl, FormGroup} from "@angular/forms";
+import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 
 @Component({
   selector: 'app-room-edit',
@@ -34,8 +34,8 @@ export class RoomEditComponent implements OnInit {
   ngOnInit(): void {
     this.roomForm = this.formBuilder.group(
         {
-          roomName: this.room.name,
-          roomLocation: this.room.location
+          roomName: [this.room.name, Validators.required],
+          roomLocation: [this.room.location, [Validators.required, Validators.minLength(2)]]
         }
     )
     for (const layoutKey of this.layoutKeys) {
@@ -60,6 +60,7 @@ export class RoomEditComponent implements OnInit {
       this.room.capacities.push(layoutCapacity);
     }
     console.log('updated room:', this.room);
+    console.log('roomForm:', this.roomForm);
     // todo: call a method in the data service to save the room
   }
 
