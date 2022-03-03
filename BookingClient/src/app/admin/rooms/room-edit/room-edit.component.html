@@ -17,7 +17,10 @@
 
   <h2>This room can accomodate:</h2>
 
-  <!-- list the layout types here -->
+  <div class="form-group" *ngFor="let layoutKey of layoutKeys">
+    <label for="layout{{layoutKey}}">{{layoutMap.get(layoutKey)}}</label>
+    <input type="number" class="form-control" id="layout{{layoutKey}}" formControlName="layout{{layoutKey}}">
+  </div>
 
   <button type="button" class="btn btn-primary" (click)="onSubmit()">Save</button>
 </form>

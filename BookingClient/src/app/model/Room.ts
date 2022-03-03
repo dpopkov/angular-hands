@@ -30,12 +30,18 @@ export class Room {
 }
 
 export class LayoutCapacity {
+  // @ts-ignore
   layout: Layout;
+  // @ts-ignore
   capacity: number
 
-  constructor(layout: Layout, capacity: number) {
-    this.layout = layout;
-    this.capacity = capacity;
+  constructor(layout?: Layout, capacity?: number) {
+    if (layout) {
+      this.layout = layout;
+    }
+    if (capacity) {
+      this.capacity = capacity;
+    }
   }
 }
 
