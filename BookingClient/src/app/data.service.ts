@@ -83,4 +83,23 @@ export class DataService {
     this.rooms.push(newRoom);
     return of(newRoom);
   }
+
+  deleteRoom(id: number): Observable<any> {
+    const room = this.rooms.find(r => r.id === id);
+    // @ts-ignore
+    this.rooms.splice(this.rooms.indexOf(room), 1);
+    return of(null);
+  }
+
+  deleteUser(id: number): Observable<any> {
+    const user = this.users.find(u => u.id === id);
+    // @ts-ignore
+    this.users.splice(this.users.indexOf(user), 1);
+    return of(null);
+  }
+
+  resetUserPassword(id: number): Observable<any> {
+    // Implement in REST version of data service
+    return of(null);
+  }
 }
