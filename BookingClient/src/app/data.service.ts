@@ -1,8 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Layout, LayoutCapacity, Room} from "./model/Room";
 import {User} from "./model/User";
-import {Observable} from "rxjs";
-import {of} from "rxjs";
+import {Observable, of} from "rxjs";
+import {Booking} from "./model/Booking";
+import {formatDate} from "@angular/common";
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +12,7 @@ export class DataService {
 
   private rooms: Array<Room> = new Array<Room>();
   private users: Array<User> = new Array<User>();
+  private bookings: Array<Booking> = new Array<Booking>();
 
   getRooms(): Observable<Array<Room>> {
     return of(this.rooms);
@@ -18,6 +20,10 @@ export class DataService {
 
   getUsers(): Observable<Array<User>> {
     return of(this.users);
+  }
+
+  getBookings(): Observable<Array<Booking>> {
+    return of(this.bookings);
   }
 
   constructor() {
@@ -39,6 +45,14 @@ export class DataService {
     const user2 = new User(102, 'Jane');
     this.users.push(user1);
     this.users.push(user2);
+
+    const today: string = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
+    const booking1 = new Booking(room1, user1, Layout.THEATER, 'Example Booking 1', today,
+      '14:00', '15:00', 3, 201);
+    const booking2 = new Booking(room2, user2, Layout.USHAPE, 'Example Booking 2', today,
+      '15:00', '16:00', 5, 202);
+    this.bookings.push(booking1);
+    this.bookings.push(booking2);
   }
 
   updateUser(toUpdate: User): Observable<User> {
