@@ -26,6 +26,12 @@ export class DataService {
     return of(this.bookings);
   }
 
+  getBookingById(id: number): Observable<Booking> {
+    // @ts-ignore
+    const found: Booking = this.bookings.find(b => b.id === id);
+    return of(found);
+  }
+
   constructor() {
     const capacity1 = new LayoutCapacity(Layout.THEATER, 50);
     const capacity2 = new LayoutCapacity(Layout.USHAPE, 20);
@@ -115,5 +121,22 @@ export class DataService {
   resetUserPassword(id: number): Observable<any> {
     // Implement in REST version of data service
     return of(null);
+  }
+
+  getLayoutMap(): Map<string, string> {
+    const layoutKeys = Object.keys(Layout);
+    const layoutMap: Map<string, string> = new Map<string, string>();
+    for (let layout of layoutKeys) {
+      // @ts-ignore
+      layoutMap.set(layout, Layout[layout]);
+    }
+    return layoutMap;
+  }
+
+  saveBooking(booking: Booking): Observable<Booking> {
+    // @ts-ignore
+    const existing: Booking = this.bookings.find(b => b.id === booking.id);
+    booking.copyTo(existing);
+    return of(existing);
   }
 }

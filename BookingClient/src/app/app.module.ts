@@ -13,11 +13,13 @@ import { UserDetailComponent } from './admin/users/user-detail/user-detail.compo
 import { UserEditComponent } from './admin/users/user-edit/user-edit.component';
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { RoomEditComponent } from './admin/rooms/room-edit/room-edit.component';
+import { BookingEditComponent } from './calendar/booking-edit/booking-edit.component';
 
 const routes: Routes = [
   {path : 'admin/users', component : UsersComponent},
   {path : 'admin/rooms', component : RoomsComponent},
   {path : '', component : CalendarComponent},
+  {path : 'bookingEdit', component : BookingEditComponent},
   {path : '404', component : PageNotFoundComponent},
   {path : '**', redirectTo: '/404'}
 ];
@@ -33,7 +35,8 @@ const routes: Routes = [
     PageNotFoundComponent,
     UserDetailComponent,
     UserEditComponent,
-    RoomEditComponent
+    RoomEditComponent,
+    BookingEditComponent
   ],
   imports: [
     BrowserModule,

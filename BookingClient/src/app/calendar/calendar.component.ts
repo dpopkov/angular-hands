@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {formatDate} from "@angular/common";
 import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-calendar',
@@ -13,7 +13,8 @@ export class CalendarComponent implements OnInit {
   // @ts-ignore
   bookings: Array<Booking>;
 
-  constructor(private dataService: DataService) { }
+  constructor(private dataService: DataService,
+              private router: Router) { }
 
   ngOnInit(): void {
     this.dataService.getBookings().subscribe(
@@ -21,4 +22,7 @@ export class CalendarComponent implements OnInit {
     )
   }
 
+  editBooking(bookingId: number) {
+    this.router.navigate(['bookingEdit'], {queryParams: {id: bookingId}});
+  }
 }

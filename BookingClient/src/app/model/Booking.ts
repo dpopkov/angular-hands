@@ -29,7 +29,23 @@ export class Booking {
     }
   }
 
+  copyTo(other: Booking): Booking {
+    other.room = this.room;
+    other.user = this.user;
+    other.layout = this.layout;
+    other.title = this.title;
+    other.date = this.date;
+    other.startTime = this.startTime;
+    other.endTime = this.endTime;
+    other.participants = this.participants;
+    return other;
+  }
+
   public getDateAsDate(): Date {
     return new Date(this.date);
+  }
+
+  public isNew(): boolean {
+    return this.id == null;
   }
 }
