@@ -22,8 +22,8 @@ export class DataService {
     return of(this.users);
   }
 
-  getBookings(): Observable<Array<Booking>> {
-    return of(this.bookings);
+  getBookings(date: string): Observable<Array<Booking>> {
+    return of(this.bookings.filter(b => b.date === date));
   }
 
   getBookingById(id: number): Observable<Booking> {
@@ -52,7 +52,7 @@ export class DataService {
     this.users.push(user1);
     this.users.push(user2);
 
-    const today: string = formatDate(new Date(), 'yyyy-MM-dd', 'en-UK');
+    const today: string = formatDate(new Date(), 'yyyy-MM-dd', 'en');
     const booking1 = new Booking(room1, user1, Layout.THEATER, 'Example Booking 1', today,
       '14:00', '15:00', 3, 201);
     const booking2 = new Booking(room2, user2, Layout.USHAPE, 'Example Booking 2', today,
