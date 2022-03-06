@@ -4,6 +4,7 @@ import {User} from "./model/User";
 import {Observable, of} from "rxjs";
 import {Booking} from "./model/Booking";
 import {formatDate} from "@angular/common";
+import {environment} from "../environments/environment";
 
 @Injectable({
   providedIn: 'root'
@@ -33,6 +34,8 @@ export class DataService {
   }
 
   constructor() {
+    console.log('environment.restUrl=', environment.restUrl);
+
     const capacity1 = new LayoutCapacity(Layout.THEATER, 50);
     const capacity2 = new LayoutCapacity(Layout.USHAPE, 20);
     const capacity3 = new LayoutCapacity(Layout.THEATER, 60);
