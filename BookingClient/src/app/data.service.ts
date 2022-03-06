@@ -139,4 +139,23 @@ export class DataService {
     booking.copyTo(existing);
     return of(existing);
   }
+
+  addBooking(newBooking: Booking): Observable<Booking> {
+    let maxId = 0;
+    for (const b of this.bookings) {
+      if (b.id > maxId) {
+        maxId = b.id;
+      }
+    }
+    newBooking.id = maxId + 1;
+    this.bookings.push(newBooking);
+    return of(newBooking);
+  }
+
+  deleteBooking(bookingId: number): Observable<any> {
+    // @ts-ignore
+    const found: Booking = this.bookings.find(b => b.id === bookingId);
+    this.bookings.splice(this.bookings.indexOf(found), 1);
+    return of(null);
+  }
 }

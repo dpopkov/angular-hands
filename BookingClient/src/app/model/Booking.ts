@@ -14,16 +14,32 @@ export class Booking {
   participants: number;
 
 
-  constructor(room: Room, user: User, layout: Layout, title: string, date: string,
-              startTime: string, endTime: string, participants: number, id?: number) {
-    this.room = room;
-    this.user = user;
-    this.layout = layout;
-    this.title = title;
-    this.date = date;
-    this.startTime = startTime;
-    this.endTime = endTime;
-    this.participants = participants;
+  constructor(room?: Room, user?: User, layout?: Layout, title?: string, date?: string,
+              startTime?: string, endTime?: string, participants?: number, id?: number) {
+    if (room) {
+      this.room = room;
+    }
+    if (user) {
+      this.user = user;
+    }
+    if (layout) {
+      this.layout = layout;
+    }
+    if (title) {
+      this.title = title;
+    }
+    if (date) {
+      this.date = date;
+    }
+    if (startTime) {
+      this.startTime = startTime;
+    }
+    if (endTime) {
+      this.endTime = endTime;
+    }
+    if (participants) {
+      this.participants = participants;
+    }
     if (id) {
       this.id = id;
     }

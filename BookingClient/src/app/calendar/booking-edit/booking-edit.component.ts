@@ -26,8 +26,12 @@ export class BookingEditComponent implements OnInit {
 
   ngOnInit(): void {
     const id = this.route.snapshot.queryParams['id'];
-    const idNumber = +id;
-    this.dataService.getBookingById(idNumber).subscribe(next => this.booking = next);
+    if (id) {
+      const idNumber = +id;
+      this.dataService.getBookingById(idNumber).subscribe(next => this.booking = next);
+    } else {
+      this.booking = new Booking();
+    }
     this.dataService.getRooms().subscribe(
       next => this.rooms = next
     )
@@ -36,9 +40,15 @@ export class BookingEditComponent implements OnInit {
     )
   }
 
-  saveBooking(): void {
-    this.dataService.saveBooking(this.booking).subscribe(
-      next => this.router.navigate([''])
-    );
+  onSubmit(): void {
+    if (this.booking.isNew()) {
+      this.dataService.addBooking(this.booking).subscribe(
+        next => this.router.navigate([''])
+      )
+    } else {
+      this.dataService.saveBooking(this.booking).subscribe(
+        next => this.router.navigate([''])
+      );
+    }
   }
 }
