@@ -28,7 +28,7 @@ export class DataService {
   }
 
   constructor() {
-
+    console.log('environment.restUrl=', environment.restUrl);
   }
 
   updateUser(toUpdate: User): Observable<User> {
