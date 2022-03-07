@@ -20,6 +20,13 @@ export class CalendarComponent implements OnInit {
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.dataService.getUser(13).subscribe(
+      user => {
+        console.log('in calendar ngOnInit(): user:', user);
+        console.log('in calendar ngOnInit(): typeof user:', typeof user);
+      }
+    );
+
     this.route.queryParams.subscribe(
       params => {
         this.selectedDate = params['date'];

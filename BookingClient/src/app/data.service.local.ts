@@ -34,7 +34,7 @@ export class DataService {
   }
 
   constructor() {
-    console.log('environment.restUrl=', environment.restUrl);
+    console.log('data.service.local.ts: environment.restUrl=', environment.restUrl);
 
     const capacity1 = new LayoutCapacity(Layout.THEATER, 50);
     const capacity2 = new LayoutCapacity(Layout.USHAPE, 20);
