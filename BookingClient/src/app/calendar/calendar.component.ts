@@ -3,6 +3,7 @@ import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
 import {ActivatedRoute, Router} from "@angular/router";
 import {formatDate} from "@angular/common";
+import {User} from "../model/User";
 
 @Component({
   selector: 'app-calendar',
@@ -24,6 +25,9 @@ export class CalendarComponent implements OnInit {
       user => {
         console.log('in calendar ngOnInit(): user:', user);
         console.log('in calendar ngOnInit(): typeof user:', typeof user);
+        const tsUser: User = User.fromHttp(user);
+        console.log('in calendar ngOnInit(): tsUser:', tsUser);
+        console.log('in calendar ngOnInit(): tsUser.isNotNew():', tsUser.isNotNew());
       }
     );
 

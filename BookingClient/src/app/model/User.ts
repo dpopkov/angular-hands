@@ -20,4 +20,8 @@ export class User {
   isNotNew(): boolean {
     return this.id != null;
   }
+
+  static fromHttp(user: User): User {
+    return new User(user.id, user.name);
+  }
 }
