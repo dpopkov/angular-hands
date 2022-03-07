@@ -23,7 +23,7 @@ public class Room {
     @NotBlank(message = "location cannot be blank")
     private String location;
 
-    @OneToMany(cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, fetch = FetchType.EAGER)
     private List<LayoutCapacity> capacities;
 
     public Room() {
@@ -44,5 +44,11 @@ public class Room {
                 lc.setCapacity(capacity.getCapacity());
             }
         }
+    }
+
+    public void updateFrom(Room update) {
+        this.name = update.getName();
+        this.location = update.getLocation();
+        this.capacities = update.getCapacities();
     }
 }
