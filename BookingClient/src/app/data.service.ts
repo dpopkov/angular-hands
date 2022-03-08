@@ -6,6 +6,7 @@ import {Booking} from "./model/Booking";
 import {formatDate} from "@angular/common";
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
+import {map} from "rxjs/operators";
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +35,10 @@ export class DataService {
 
   getUser(id: number) : Observable<User> {
     console.log('data.service.ts: getUser with id=', id)
-    return this.http.get<User>(environment.restUrl + '/api/users/' + id);
+    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
+      .pipe(
+        map(data => User.fromHttp(data))
+      );
   }
 
   updateUser(toUpdate: User): Observable<User> {

@@ -25,9 +25,7 @@ export class CalendarComponent implements OnInit {
       user => {
         console.log('in calendar ngOnInit(): user:', user);
         console.log('in calendar ngOnInit(): typeof user:', typeof user);
-        const tsUser: User = User.fromHttp(user);
-        console.log('in calendar ngOnInit(): tsUser:', tsUser);
-        console.log('in calendar ngOnInit(): tsUser.isNotNew():', tsUser.isNotNew());
+        console.log('in calendar ngOnInit(): user.isNotNew():', user.isNotNew());
       }
     );
 
