@@ -27,6 +27,14 @@ export class Room {
   isNew(): boolean {
     return this.id == null;
   }
+
+  static fromHttp(room: Room) : Room {
+    let newRoom = new Room(room.name, room.location, room.id);
+    for (const lcData of room.capacities) {
+      newRoom.addLayoutCapacity(LayoutCapacity.fromHttp(lcData));
+    }
+    return newRoom;
+  }
 }
 
 export class LayoutCapacity {
@@ -42,6 +50,10 @@ export class LayoutCapacity {
     if (capacity) {
       this.capacity = capacity;
     }
+  }
+
+  static fromHttp(lcData: LayoutCapacity) : LayoutCapacity {
+    return new LayoutCapacity(Layout[lcData.layout], lcData.capacity);
   }
 }
 
