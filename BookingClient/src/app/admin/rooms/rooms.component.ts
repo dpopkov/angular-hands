@@ -17,6 +17,7 @@ export class RoomsComponent implements OnInit {
   selectedRoom: Room;
   // @ts-ignore
   action: string;
+  loadingData = true;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -27,6 +28,7 @@ export class RoomsComponent implements OnInit {
     this.dataService.getRooms().subscribe(
       (next) => {
         this.rooms = next;
+        this.loadingData = false;
       }
     )
     this.route.queryParams.subscribe(

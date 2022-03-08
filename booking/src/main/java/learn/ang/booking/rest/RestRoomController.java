@@ -17,6 +17,13 @@ public class RestRoomController {
 
     @GetMapping
     public List<Room> getAllRooms() {
+        /*
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException("Delay interrupted", e);
+        }
+        */
         return roomRepository.findAll();
     }
 
