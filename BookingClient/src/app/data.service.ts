@@ -51,14 +51,6 @@ export class DataService {
     console.log('data.service.ts: environment.restUrl=', environment.restUrl);
   }
 
-  getUser(id: number) : Observable<User> {
-    console.log('data.service.ts: getUser with id=', id)
-    return this.http.get<User>(environment.restUrl + '/api/users/' + id)
-      .pipe(
-        map(data => User.fromHttp(data))
-      );
-  }
-
   updateUser(toUpdate: User): Observable<User> {
     return of(null);
   }
