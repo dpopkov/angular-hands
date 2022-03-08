@@ -18,6 +18,7 @@ export class RoomsComponent implements OnInit {
   // @ts-ignore
   action: string;
   loadingData = true;
+  message = 'Please wait... getting the list of rooms';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -29,6 +30,11 @@ export class RoomsComponent implements OnInit {
       (next) => {
         this.rooms = next;
         this.loadingData = false;
+      },
+      (error) => {
+        this.message = 'Sorry - something went wrong, please try again. '
+          + error.message;  // try to replace this error.message with a more meaningful message to the user
+        console.log('ngOnInit: error:', error);
       }
     )
     this.route.queryParams.subscribe(
