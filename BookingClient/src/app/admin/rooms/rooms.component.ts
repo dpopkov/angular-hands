@@ -28,6 +28,32 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+  }
+
+  loadData(): void {
+    this.dataService.getRooms().subscribe(
+      (next) => {
+        this.rooms = next;
+        this.loadingData = false;
+        this.processUrlParams();
+      },
+      (error) => {
+        if (error.status === 402) {
+          this.message = 'Sorry - you need to pay to use this application';
+        } else {
+          this.reloadAttempts++;
+          if (this.reloadAttempts < 10) {
+            this.message = 'Sorry - something went wrong, please trying again.... please wait';
+            this.loadData();
+          } else {
+            this.message = 'Sorry - something went wrong, please contact support';
+          }
+        }
+      }
+    )
+  }
+
+  private processUrlParams() {
     this.route.queryParams.subscribe(
       (params) => {
         const idAsString = params['id'];
@@ -41,28 +67,6 @@ export class RoomsComponent implements OnInit {
           this.selectedRoom = new Room();
           this.action = 'edit';
           this.formResetService.resetRoomFormEvent.emit(this.selectedRoom);
-        }
-      }
-    )
-  }
-
-  loadData(): void {
-    this.dataService.getRooms().subscribe(
-      (next) => {
-        this.rooms = next;
-        this.loadingData = false;
-      },
-      (error) => {
-        if (error.status === 402) {
-          this.message = 'Sorry - you need to pay to use this application';
-        } else {
-          this.reloadAttempts++;
-          if (this.reloadAttempts < 10) {
-            this.message = 'Sorry - something went wrong, please trying again.... please wait';
-            this.loadData();
-          } else {
-            this.message = 'Sorry - something went wrong, please contact support';
-          }
         }
       }
     )
