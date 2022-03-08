@@ -32,9 +32,11 @@ export class RoomsComponent implements OnInit {
         this.loadingData = false;
       },
       (error) => {
-        this.message = 'Sorry - something went wrong, please try again. '
-          + error.message;  // try to replace this error.message with a more meaningful message to the user
-        console.log('ngOnInit: error:', error);
+        if (error.status === 402) {
+          this.message = 'Sorry - you need to pay to use this application';
+        } else {
+          this.message = 'Sorry - something went wrong, please try again.';
+        }
       }
     )
     this.route.queryParams.subscribe(

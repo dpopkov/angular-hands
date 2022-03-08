@@ -4,6 +4,7 @@ import learn.ang.booking.data.RoomRepository;
 import learn.ang.booking.model.entities.Room;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 
 @RestController
@@ -16,7 +17,7 @@ public class RestRoomController {
     }
 
     @GetMapping
-    public List<Room> getAllRooms() {
+    public List<Room> getAllRooms( /* HttpServletResponse response */ ) {
         /*
         try {
             Thread.sleep(3000);
@@ -25,6 +26,10 @@ public class RestRoomController {
         }
         */
         return roomRepository.findAll();
+        /*
+        response.setStatus(402);
+        return null;
+        */
     }
 
     @GetMapping("/{roomId}")
