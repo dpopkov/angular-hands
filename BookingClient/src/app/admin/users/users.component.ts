@@ -17,6 +17,8 @@ export class UsersComponent implements OnInit {
   selectedUser: User;
   // @ts-ignore
   action: string;
+  loadingData: boolean = true;
+  message = 'Please wait... getting the list of users';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -27,8 +29,16 @@ export class UsersComponent implements OnInit {
     this.dataService.getUsers().subscribe(
       (next) => {
         this.users = next;
+        this.loadingData = false;
+        this.processUrlParams();
+      },
+      (error) => {
+        this.message = 'Sorry, an error has occurred - please contact support.'
       }
     )
+  }
+
+  private processUrlParams() {
     this.route.queryParams.subscribe(
       (params) => {
         const idString = params['id'];
