@@ -1,4 +1,4 @@
-import {Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {User} from "../../../model/User";
 import {DataService} from "../../../data.service";
 import {Router} from "@angular/router";
@@ -15,6 +15,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
   @Input()
   // @ts-ignore
   user: User;
+  @Output()
+  dataChangedEvent = new EventEmitter();
   // @ts-ignore
   formUser: User;
   // @ts-ignore
@@ -56,18 +58,27 @@ export class UserEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(): void {
+    this.message = 'saving...';
     if (this.formUser.id == null) {
       this.dataService.addUser(this.formUser, this.password).subscribe(
         (user) => {
           // If we get that event it means that our user has been successfully added
+          this.dataChangedEvent.emit(); // now let the interested component(s) know
           this.navigateToView(user);
+        },
+        (error) => {
+          this.message = 'Something went wrong and the user wasn\'t added. You may want to try again';
         }
       )
     } else {
       this.dataService.updateUser(this.formUser).subscribe(
         (user) => {
           // If we get that event it means that our user has been successfully updated
+          this.dataChangedEvent.emit(); // now let the interested component(s) know
           this.navigateToView(user);
+        },
+        (error) => {
+          this.message = 'Something went wrong and the user wasn\'t updated. You may want to try again';
         }
       );
     }

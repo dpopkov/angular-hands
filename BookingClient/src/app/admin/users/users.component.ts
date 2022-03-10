@@ -26,6 +26,10 @@ export class UsersComponent implements OnInit {
               private formResetService: FormResetService) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  loadData() {
     this.dataService.getUsers().subscribe(
       (next) => {
         this.users = next;

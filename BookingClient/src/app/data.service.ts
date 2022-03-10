@@ -52,7 +52,8 @@ export class DataService {
   }
 
   updateUser(toUpdate: User): Observable<User> {
-    return of(null);
+    return this.http.put<User>(environment.restUrl + '/api/users', toUpdate)
+      .pipe(map(data =>  User.fromHttp(data)));
   }
 
   addUser(newUser: User, password: string): Observable<User> {
