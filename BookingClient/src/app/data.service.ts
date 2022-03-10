@@ -56,8 +56,14 @@ export class DataService {
       .pipe(map(data =>  User.fromHttp(data)));
   }
 
-  addUser(newUser: User, password: string): Observable<User> {
-    return of(null);
+  addUser(newUser: User, userPassword: string): Observable<User> {
+    const fullUser = {
+      id: newUser.id,
+      name: newUser.name,
+      password: userPassword
+    };
+    return this.http.post<User>(environment.restUrl + '/api/users', fullUser)
+      .pipe(map(data => User.fromHttp(data)));
   }
 
   updateRoom(room: Room): Observable<Room> {

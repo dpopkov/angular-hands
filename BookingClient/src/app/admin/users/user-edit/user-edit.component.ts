@@ -64,7 +64,8 @@ export class UserEditComponent implements OnInit, OnDestroy {
         (user) => {
           // If we get that event it means that our user has been successfully added
           this.dataChangedEvent.emit(); // now let the interested component(s) know
-          this.navigateToView(user);
+          // this.navigateToView(user);
+          this.router.navigate(['admin', 'users']);
         },
         (error) => {
           this.message = 'Something went wrong and the user wasn\'t added. You may want to try again';

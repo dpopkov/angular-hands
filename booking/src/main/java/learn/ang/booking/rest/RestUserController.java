@@ -31,8 +31,8 @@ public class RestUserController {
     }
 
     @PostMapping
-    public AngularUser addUser(@RequestBody AngularUser newUser) {
-        return new AngularUser(userRepository.save(newUser.asUser()));
+    public AngularUser addUser(@RequestBody User newUser) {
+        return new AngularUser(userRepository.save(newUser));
     }
 
     @PutMapping
