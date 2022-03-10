@@ -67,7 +67,27 @@ export class DataService {
   }
 
   updateRoom(room: Room): Observable<Room> {
-    return of(null);
+    const correctedRoom = {
+      id: room.id,
+      name: room.name,
+      location: room.location,
+      capacities: []
+    }
+    for (const lc of room.capacities) {
+      let correctLayout;
+      for (let member in Layout) {
+        if (Layout[member] === lc.layout) {
+          correctLayout = member;
+        }
+      }
+      const correctedLayout = {
+        layout: correctLayout,
+        capacity: lc.capacity
+      }
+      correctedRoom.capacities.push(correctedLayout);
+    }
+    return this.http.put<Room>(environment.restUrl + '/api/rooms', correctedRoom)
+      .pipe(map(data => Room.fromHttp(data)));
   }
 
   addRoom(newRoom: Room): Observable<Room> {
