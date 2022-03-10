@@ -88,8 +88,10 @@ export class RoomEditComponent implements OnInit, OnDestroy {
     if (this.room.isNew()) {
       this.dataService.addRoom(this.room).subscribe(
         next => {
+          this.dataChangedEvent.emit();
           this.navigateToView(next);
-        }
+        },
+        error => this.message = 'Something went wrong, you may wish to try again.'
       );
     } else {
       this.dataService.updateRoom(this.room).subscribe(

@@ -67,6 +67,16 @@ export class DataService {
   }
 
   updateRoom(room: Room): Observable<Room> {
+    return this.http.put<Room>(environment.restUrl + '/api/rooms', this.getCorrectedRoom(room))
+      .pipe(map(data => Room.fromHttp(data)));
+  }
+
+  addRoom(newRoom: Room): Observable<Room> {
+    return this.http.post<Room>(environment.restUrl + '/api/rooms', this.getCorrectedRoom(newRoom))
+      .pipe(map(data => Room.fromHttp(data)));
+  }
+
+  private getCorrectedRoom(room: Room) {
     const correctedRoom = {
       id: room.id,
       name: room.name,
@@ -86,12 +96,7 @@ export class DataService {
       }
       correctedRoom.capacities.push(correctedLayout);
     }
-    return this.http.put<Room>(environment.restUrl + '/api/rooms', correctedRoom)
-      .pipe(map(data => Room.fromHttp(data)));
-  }
-
-  addRoom(newRoom: Room): Observable<Room> {
-    return of(null);
+    return correctedRoom;
   }
 
   deleteRoom(id: number): Observable<any> {
