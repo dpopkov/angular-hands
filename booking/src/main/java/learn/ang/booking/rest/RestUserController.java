@@ -41,4 +41,16 @@ public class RestUserController {
         original.updateFrom(updateUser.asUser());
         return new AngularUser(userRepository.save(original));
     }
+
+    @DeleteMapping("/{userId}")
+    public void deleteUser(@PathVariable Long userId) {
+        userRepository.deleteById(userId);
+    }
+
+    @GetMapping("/resetPassword/{userId}")
+    public void resetPassword(@PathVariable Long userId) {
+        User user = userRepository.findById(userId).orElseThrow();
+        user.setPassword("secret");
+        userRepository.save(user);
+    }
 }
