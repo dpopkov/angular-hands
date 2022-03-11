@@ -48,4 +48,9 @@ public class RestRoomController {
         original.updateFrom(updateRoom);
         return roomRepository.save(original);
     }
+
+    @DeleteMapping("/{roomId}")
+    public void deleteRoom(@PathVariable Long roomId) {
+        roomRepository.deleteById(roomId);
+    }
 }
