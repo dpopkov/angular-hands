@@ -45,7 +45,7 @@ export class Booking {
     }
   }
 
-  copyTo(other: Booking): Booking {
+  public copyTo(other: Booking): Booking {
     other.room = this.room;
     other.user = this.user;
     other.layout = this.layout;
@@ -63,5 +63,19 @@ export class Booking {
 
   public isNew(): boolean {
     return this.id == null;
+  }
+
+  static fromHttp(jsBooking: Booking): Booking {
+    const newBooking = new Booking();
+    newBooking.id = jsBooking.id;
+    newBooking.room = Room.fromHttp(jsBooking.room);
+    newBooking.user = User.fromHttp(jsBooking.user);
+    newBooking.layout = Layout[jsBooking.layout];
+    newBooking.title = jsBooking.title;
+    newBooking.date = jsBooking.date;
+    newBooking.startTime = jsBooking.startTime;
+    newBooking.endTime = jsBooking.endTime;
+    newBooking.participants = jsBooking.participants;
+    return newBooking;
   }
 }

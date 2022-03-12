@@ -1,9 +1,8 @@
 import {Injectable} from '@angular/core';
-import {Layout, LayoutCapacity, Room} from "./model/Room";
+import {Layout, Room} from "./model/Room";
 import {User} from "./model/User";
 import {Observable, of} from "rxjs";
 import {Booking} from "./model/Booking";
-import {formatDate} from "@angular/common";
 import {environment} from "../environments/environment";
 import {HttpClient} from "@angular/common/http";
 import {map} from "rxjs/operators";
@@ -40,7 +39,14 @@ export class DataService {
   }
 
   getBookings(date: string): Observable<Array<Booking>> {
-    return of(null);
+    return this.http.get<Array<Booking>>(environment.restUrl + '/api/bookings/' + date)
+      .pipe(map(data => {
+        const bookings = new Array<Booking>();
+        for (const bookingData of data) {
+          bookings.push(Booking.fromHttp(bookingData));
+        }
+        return bookings;
+      }));
   }
 
   getBookingById(id: number): Observable<Booking> {
@@ -130,6 +136,6 @@ export class DataService {
   }
 
   deleteBooking(bookingId: number): Observable<any> {
-    return of(null);
+    return this.http.delete(environment.restUrl + '/api/bookings/' + bookingId);
   }
 }

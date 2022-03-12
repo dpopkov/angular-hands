@@ -3,7 +3,6 @@ import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
 import {ActivatedRoute, Router} from "@angular/router";
 import {formatDate} from "@angular/common";
-import {User} from "../model/User";
 
 @Component({
   selector: 'app-calendar',
@@ -15,12 +14,19 @@ export class CalendarComponent implements OnInit {
   // @ts-ignore
   bookings: Array<Booking>;
   selectedDate: string;
+  dataLoaded = false;
+  message = '';
 
   constructor(private dataService: DataService,
               private router: Router,
               private route: ActivatedRoute) { }
 
   ngOnInit(): void {
+    this.loadData();
+  }
+
+  private loadData(): void {
+    this.message = 'Loading data...';
     this.route.queryParams.subscribe(
       params => {
         this.selectedDate = params['date'];
@@ -28,7 +34,14 @@ export class CalendarComponent implements OnInit {
           this.selectedDate = formatDate(new Date(), 'yyy-MM-dd', 'en');
         }
         this.dataService.getBookings(this.selectedDate).subscribe(
-          next =>  this.bookings = next
+          next => {
+            this.bookings = next;
+            this.dataLoaded = true;
+            this.message = '';
+          },
+          error => {
+            this.message = 'Sorry - the data could not be loaded.'
+          }
         )
       }
     )
@@ -43,7 +56,15 @@ export class CalendarComponent implements OnInit {
   }
 
   deleteBooking(bookingId: number) {
-    this.dataService.deleteBooking(bookingId).subscribe();
+    this.message = 'Deleting, please wait...';
+    this.dataService.deleteBooking(bookingId).subscribe(
+      next => {
+        this.loadData();
+      },
+      error => {
+        this.message = 'Sorry there was a problem deleting the item';
+      }
+    );
   }
 
   dateChanged() {
