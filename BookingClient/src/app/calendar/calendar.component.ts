@@ -56,15 +56,18 @@ export class CalendarComponent implements OnInit {
   }
 
   deleteBooking(bookingId: number) {
-    this.message = 'Deleting, please wait...';
-    this.dataService.deleteBooking(bookingId).subscribe(
-      next => {
-        this.loadData();
-      },
-      error => {
-        this.message = 'Sorry there was a problem deleting the item';
-      }
-    );
+    const deleteConfirmed = confirm('Are you sure you wish to cancel this booking?');
+    if (deleteConfirmed) {
+      this.message = 'Deleting, please wait...';
+      this.dataService.deleteBooking(bookingId).subscribe(
+        next => {
+          this.loadData();
+        },
+        error => {
+          this.message = 'Sorry there was a problem deleting the item';
+        }
+      );
+    }
   }
 
   dateChanged() {

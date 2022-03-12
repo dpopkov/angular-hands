@@ -30,14 +30,17 @@ export class RoomDetailComponent implements OnInit {
   }
 
   deleteRoom() {
-    this.message = 'Deleting...';
-    this.dataService.deleteRoom(this.room.id).subscribe(
-      next =>  {
-        this.dataChangedEvent.emit();
-        this.router.navigate(["admin", "rooms"]);
+    const deleteConfirmed = confirm('Are you sure you wish to delete this room?');
+    if (deleteConfirmed) {
+      this.message = 'Deleting...';
+      this.dataService.deleteRoom(this.room.id).subscribe(
+        next => {
+          this.dataChangedEvent.emit();
+          this.router.navigate(["admin", "rooms"]);
+        }
+      ), error => {
+        this.message = 'Sorry - this room cannot be deleted at this time.';
       }
-    ), error => {
-      this.message = 'Sorry - this room cannot be deleted at this time.';
     }
   }
 }
