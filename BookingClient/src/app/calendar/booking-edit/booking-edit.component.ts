@@ -17,6 +17,8 @@ export class BookingEditComponent implements OnInit {
   layouts = Object.keys(Layout);
   layoutMap: Map<string, string>;
   users: Array<User>;
+  dataLoaded = false;
+  message = 'Please wait...';
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -25,19 +27,25 @@ export class BookingEditComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    const id = this.route.snapshot.queryParams['id'];
-    if (id) {
-      const idNumber = +id;
-      this.dataService.getBookingById(idNumber).subscribe(next => this.booking = next);
-    } else {
-      this.booking = new Booking();
-    }
     this.dataService.getRooms().subscribe(
       next => this.rooms = next
     )
     this.dataService.getUsers().subscribe(
       next => this.users = next
     )
+    const id = this.route.snapshot.queryParams['id'];
+    if (id) {
+      const idNumber = +id;
+      this.dataService.getBookingById(idNumber).subscribe(next => {
+        this.booking = next;
+        this.dataLoaded = true;
+        this.message = '';
+      });
+    } else {
+      this.booking = new Booking();
+      this.dataLoaded = true;
+      this.message = '';
+    }
   }
 
   onSubmit(): void {

@@ -16,14 +16,14 @@ public class RestBookingController {
         this.bookingRepository = bookingRepository;
     }
 
-    @GetMapping
-    public List<Booking> getAllBookings() {
-        return bookingRepository.findAll();
-    }
-
     @GetMapping("/{date}")
     public List<Booking> getBookingsByDate(@PathVariable String date) {
         return bookingRepository.findAllByDate(Date.valueOf(date));
+    }
+
+    @GetMapping
+    public Booking getBooking(@RequestParam("id") Long bookingId) {
+        return bookingRepository.findById(bookingId).orElseThrow();
     }
 
     @DeleteMapping("/{bookingId}")
