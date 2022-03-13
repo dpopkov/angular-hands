@@ -4,6 +4,8 @@ import {Layout, Room} from "../../model/Room";
 import {DataService} from "../../data.service";
 import {User} from "../../model/User";
 import {ActivatedRoute, Router} from "@angular/router";
+import {EditBookingDataService} from "../../edit-booking-data.service";
+import {map} from "rxjs/operators";
 
 @Component({
   selector: 'app-booking-edit',
@@ -22,25 +24,31 @@ export class BookingEditComponent implements OnInit {
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
-              private router: Router) {
+              private router: Router,
+              private bookingEditDataService : EditBookingDataService) {
     this.layoutMap = this.dataService.getLayoutMap();
   }
 
   ngOnInit(): void {
-    this.dataService.getRooms().subscribe(
-      next => this.rooms = next
-    )
-    this.dataService.getUsers().subscribe(
-      next => this.users = next
-    )
+    this.rooms = this.bookingEditDataService.rooms;
+    this.users = this.bookingEditDataService.users;
+
     const id = this.route.snapshot.queryParams['id'];
     if (id) {
       const idNumber = +id;
-      this.dataService.getBookingById(idNumber).subscribe(next => {
-        this.booking = next;
-        this.dataLoaded = true;
-        this.message = '';
-      });
+      this.dataService.getBookingById(idNumber)
+        .pipe(map(
+          booking => {
+            booking.room = this.rooms.find(room => room.id === booking.room.id);
+            booking.user = this.users.find(user => user.id === booking.user.id);
+            return booking;
+          }
+        ))
+        .subscribe(next => {
+          this.booking = next;
+          this.dataLoaded = true;
+          this.message = '';
+        });
     } else {
       this.booking = new Booking();
       this.dataLoaded = true;
