@@ -48,11 +48,11 @@ export class CalendarComponent implements OnInit {
   }
 
   editBooking(bookingId: number) {
-    this.router.navigate(['bookingEditLoad'], {queryParams: {id: bookingId}});
+    this.router.navigate(['bookingEdit'], {queryParams: {id: bookingId}});
   }
 
   addBooking() {
-    this.router.navigate(['bookingEditLoad']);
+    this.router.navigate(['bookingAdd']);
   }
 
   deleteBooking(bookingId: number) {
