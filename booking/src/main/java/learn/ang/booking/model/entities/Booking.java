@@ -56,4 +56,16 @@ public class Booking {
     public String getDisplayDayOfWeek() {
         return this.date.toLocalDate().getDayOfWeek().toString();
     }
+
+    public Booking updateFrom(Booking updateBooking) {
+        this.room = updateBooking.getRoom();
+        this.user = updateBooking.getUser();
+        this.layout = updateBooking.getLayout();
+        this.title = updateBooking.getTitle();
+        this.date = updateBooking.getDate();
+        this.startTime = updateBooking.getStartTime();
+        this.endTime = updateBooking.getEndTime();
+        this.participants = updateBooking.getParticipants();
+        return this;
+    }
 }

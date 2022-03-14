@@ -30,4 +30,16 @@ public class RestBookingController {
     public void deleteBooking(@PathVariable Long bookingId) {
         bookingRepository.deleteById(bookingId);
     }
+
+    @PutMapping
+    public Booking updateBooking(@RequestBody Booking booking) {
+        Booking original = bookingRepository.findById(booking.getId()).orElseThrow();
+        original = original.updateFrom(booking);
+        return bookingRepository.save(original);
+    }
+
+    @PostMapping
+    public Booking newBooking(@RequestBody Booking booking) {
+        return bookingRepository.save(booking);
+    }
 }
