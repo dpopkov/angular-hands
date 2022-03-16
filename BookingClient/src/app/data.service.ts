@@ -4,7 +4,7 @@ import {User} from "./model/User";
 import {Observable, of} from "rxjs";
 import {Booking} from "./model/Booking";
 import {environment} from "../environments/environment";
-import {HttpClient} from "@angular/common/http";
+import {HttpClient, HttpHeaders} from "@angular/common/http";
 import {map} from "rxjs/operators";
 
 @Injectable({
@@ -172,5 +172,12 @@ export class DataService {
 
   deleteBooking(bookingId: number): Observable<any> {
     return this.http.delete(environment.restUrl + '/api/bookings/' + bookingId);
+  }
+
+  validateUser(name: string, password: string) : Observable<string> {
+    const headers = new HttpHeaders();
+    const authData = btoa(`${name}:${password}`);
+    headers.append('Authorization', 'Basic ' + authData);
+    return this.http.get<string>(environment.restUrl + '/api/basicAuth/validate', {headers: headers});
   }
 }

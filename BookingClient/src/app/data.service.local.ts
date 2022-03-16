@@ -161,4 +161,8 @@ export class DataService {
     this.bookings.splice(this.bookings.indexOf(found), 1);
     return of(null);
   }
+
+  validateUser(name: string, password: string) : Observable<string> {
+    return of("ok");
+  }
 }
