@@ -175,9 +175,8 @@ export class DataService {
   }
 
   validateUser(name: string, password: string) : Observable<string> {
-    const headers = new HttpHeaders();
     const authData = btoa(`${name}:${password}`);
-    headers.append('Authorization', 'Basic ' + authData);
+    const headers = new HttpHeaders().append('Authorization', 'Basic ' + authData);
     return this.http.get<string>(environment.restUrl + '/api/basicAuth/validate', {headers: headers});
   }
 }
