@@ -26,4 +26,16 @@ export class AuthService {
       }
     )
   }
+
+  getRole(): string {
+    if (this.jwtToken == null) {
+      return null;
+    }
+    const encodedPayload = this.jwtToken.split('.')[1];
+    const payload = atob(encodedPayload);
+    console.log('AuthService:getRole:payload=', payload);
+    let parsedRole = JSON.parse(payload).role;
+    console.log('AuthService:getRole:role=', parsedRole);
+    return parsedRole;
+  }
 }
