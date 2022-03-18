@@ -5,6 +5,7 @@ import {DataService} from "../../../data.service";
 import {Router} from "@angular/router";
 import {FormResetService} from "../../../form-reset.service";
 import {Subscription} from "rxjs";
+import {AuthService} from "../../../auth.service";
 
 @Component({
   selector: 'app-room-edit',
@@ -31,7 +32,8 @@ export class RoomEditComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder, private dataService: DataService,
               private router: Router,
-              private formResetService: FormResetService) {
+              private formResetService: FormResetService,
+              private authService: AuthService) {
     for(let layout of this.layouts) {
       // @ts-ignore
       let layoutDescription = Layout[layout];
@@ -94,12 +96,12 @@ export class RoomEditComponent implements OnInit, OnDestroy {
         error => this.message = 'Something went wrong, you may wish to try again.'
       );
     } else {
-      this.dataService.updateRoom(this.room).subscribe(
+      this.dataService.updateRoom(this.room, this.authService.jwtToken).subscribe(
         next => {
           this.dataChangedEvent.emit();
           this.navigateToView(next);
         },
-        error => this.message = 'Something went wrong, you may wish to try again.'
+        error => this.message = 'Something went wrong, you may wish to try again. Error status ' + error.status
       );
     }
   }
