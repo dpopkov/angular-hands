@@ -33,7 +33,7 @@ public class RestSecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.OPTIONS, "/api/users/**").permitAll()
+                .antMatchers(HttpMethod.OPTIONS, "/api/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/bookings/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/**").hasAnyRole("ADMIN", "USER")
                 .antMatchers("/api/**").hasRole("ADMIN")
