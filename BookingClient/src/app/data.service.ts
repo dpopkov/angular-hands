@@ -174,9 +174,9 @@ export class DataService {
     return this.http.delete(environment.restUrl + '/api/bookings/' + bookingId);
   }
 
-  validateUser(name: string, password: string) : Observable<string> {
+  validateUser(name: string, password: string) : Observable<{result: string}> {
     const authData = btoa(`${name}:${password}`);
     const headers = new HttpHeaders().append('Authorization', 'Basic ' + authData);
-    return this.http.get<string>(environment.restUrl + '/api/basicAuth/validate', {headers: headers});
+    return this.http.get<{result: string}>(environment.restUrl + '/api/basicAuth/validate', {headers: headers});
   }
 }
