@@ -7,6 +7,8 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Map;
 
 @RestController
@@ -20,7 +22,7 @@ public class ValidateUserController {
     }
 
     @RequestMapping("/validate")
-    public Map<String, String> userIsValid() {
+    public Map<String, String> userIsValid(HttpServletResponse response) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         // Important: using org.springframework.security.core.userdetails.User
         User currentUser = (User) authentication.getPrincipal();
@@ -28,6 +30,9 @@ public class ValidateUserController {
         // We expect the user to have one role such as "role_admin" or "role_user".
         String role = currentUser.getAuthorities().toArray()[0].toString().substring(5);
         String token = jwtService.generateToken(name, role);
-        return Map.of("result", token);
+        final Map<String, String> validationResult = Map.of("result", token);
+        Cookie cookie = new Cookie("token", token);
+        response.addCookie(cookie);
+        return validationResult;
     }
 }
