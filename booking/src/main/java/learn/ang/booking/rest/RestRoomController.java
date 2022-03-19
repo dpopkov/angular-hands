@@ -2,10 +2,12 @@ package learn.ang.booking.rest;
 
 import learn.ang.booking.data.RoomRepository;
 import learn.ang.booking.model.entities.Room;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequestMapping("/api/rooms")
 public class RestRoomController {
@@ -16,7 +18,10 @@ public class RestRoomController {
     }
 
     @GetMapping
-    public List<Room> getAllRooms( /* HttpServletResponse response */ ) {
+    public List<Room> getAllRooms(
+            @CookieValue(value = "token", defaultValue = "empty") String token
+            /* HttpServletResponse response */ ) {
+        log.debug("Token received by cookie: {}", token);
         return roomRepository.findAll();
     }
 

@@ -32,6 +32,7 @@ public class ValidateUserController {
         String token = jwtService.generateToken(name, role);
         final Map<String, String> validationResult = Map.of("result", token);
         Cookie cookie = new Cookie("token", token);
+        cookie.setPath("/api");
         response.addCookie(cookie);
         return validationResult;
     }
