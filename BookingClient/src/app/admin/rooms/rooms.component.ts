@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from "../../data.service";
 import {Room} from "../../model/Room";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormResetService} from "../../form-reset.service";
 import {AuthService} from "../../auth.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-rooms',
   templateUrl: './rooms.component.html',
   styleUrls: ['./rooms.component.css']
 })
-export class RoomsComponent implements OnInit {
+export class RoomsComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   rooms: Array<Room>;
@@ -21,7 +22,8 @@ export class RoomsComponent implements OnInit {
   loadingData = true;
   message = 'Please wait... getting the list of rooms';
   reloadAttempts = 0;
-  isAdminUser = false;
+  isAdminUser: boolean = false;
+  subscription: Subscription;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
@@ -31,6 +33,18 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
+    if (this.authService.role === 'ADMIN') {
+      this.isAdminUser = true;
+    }
+    this.subscription = this.authService.roleSetEvent.subscribe(
+      next => {
+        this.isAdminUser = (next === 'ADMIN');
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   loadData(): void {
@@ -39,11 +53,6 @@ export class RoomsComponent implements OnInit {
         this.rooms = next;
         this.loadingData = false;
         this.processUrlParams();
-        // Moved this admin check from ngOnInit in order to slow down a little.
-        // Otherwise authService fails to initialize role earlier than it is used in components.
-        if (this.authService.roleIsAdmin()) {
-          this.isAdminUser = true;
-        }
       },
       (error) => {
         if (error.status === 402) {

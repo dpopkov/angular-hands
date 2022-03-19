@@ -1,15 +1,16 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Room} from "../../../model/Room";
 import {Router} from "@angular/router";
 import {DataService} from "../../../data.service";
 import {AuthService} from "../../../auth.service";
+import {Subscription} from "rxjs";
 
 @Component({
   selector: 'app-room-detail',
   templateUrl: './room-detail.component.html',
   styleUrls: ['./room-detail.component.css']
 })
-export class RoomDetailComponent implements OnInit {
+export class RoomDetailComponent implements OnInit, OnDestroy {
 
   @Input()
   // @ts-ignore
@@ -19,16 +20,26 @@ export class RoomDetailComponent implements OnInit {
   dataChangedEvent = new EventEmitter();
 
   message = '';
-  isAdminUser = false;
+  isAdminUser: boolean = false;
+  subscription: Subscription;
 
   constructor(private router: Router,
               private dataService: DataService,
               private authService: AuthService) { }
 
   ngOnInit(): void {
-    if (this.authService.roleIsAdmin()) {
+    if (this.authService.role === 'ADMIN') {
       this.isAdminUser = true;
     }
+    this.subscription = this.authService.roleSetEvent.subscribe(
+      next => {
+        this.isAdminUser = (next === 'ADMIN');
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   editRoom() {

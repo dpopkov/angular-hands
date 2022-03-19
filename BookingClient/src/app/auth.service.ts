@@ -9,6 +9,7 @@ export class AuthService {
   isAuthenticated = false;
   authenticationResultEvent = new EventEmitter<boolean>();
   role: string;
+  roleSetEvent = new EventEmitter<string>();
 
   constructor(private dataService: DataService) {
   }
@@ -31,21 +32,17 @@ export class AuthService {
     this.dataService.getRole().subscribe(
       next => {
         this.role = next.role;
-        console.log('AuthService:setupRole:this.role=', this.role);
+        this.roleSetEvent.emit(this.role);
       }
     )
-  }
-
-  roleIsAdmin(): boolean {
-    const isAdmin = this.role === 'ADMIN';
-    console.log('AuthService:roleIsAdmin:isAdmin=', isAdmin); // for debug
-    return isAdmin;
   }
 
   checkIfAlreadyAuthenticated() {
     this.dataService.getRole().subscribe(
       next => {
         if (next.role !== '') {
+          this.role = next.role;
+          this.roleSetEvent.emit(this.role);
           this.isAuthenticated = true;
           this.authenticationResultEvent.emit(true);
         }
