@@ -181,4 +181,9 @@ export class DataService {
     return this.http.get<{result: string}>(environment.restUrl + '/api/basicAuth/validate',
                                     {headers: headers, withCredentials: true});
   }
+
+  getRole(): Observable<{role: string}> {
+    return this.http.get<{role: string}>(environment.restUrl + '/api/users/currentUserRole',
+                                        {withCredentials: true});
+  }
 }

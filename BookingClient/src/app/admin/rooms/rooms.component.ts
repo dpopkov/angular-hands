@@ -31,9 +31,6 @@ export class RoomsComponent implements OnInit {
 
   ngOnInit(): void {
     this.loadData();
-    if (this.authService.getRole() === 'ADMIN') {
-      this.isAdminUser = true;
-    }
   }
 
   loadData(): void {
@@ -42,6 +39,11 @@ export class RoomsComponent implements OnInit {
         this.rooms = next;
         this.loadingData = false;
         this.processUrlParams();
+        // Moved this admin check from ngOnInit in order to slow down a little.
+        // Otherwise authService fails to initialize role earlier than it is used in components.
+        if (this.authService.roleIsAdmin()) {
+          this.isAdminUser = true;
+        }
       },
       (error) => {
         if (error.status === 402) {
