@@ -8,7 +8,6 @@ export class AuthService {
 
   isAuthenticated = false;
   authenticationResultEvent = new EventEmitter<boolean>();
-  jwtToken: string;
 
   constructor(private dataService: DataService) {
   }
@@ -16,7 +15,6 @@ export class AuthService {
   authenticate(name: string, password: string) {
     this.dataService.validateUser(name, password).subscribe(
       next => {
-        this.jwtToken = next.result;
         this.isAuthenticated = true;
         this.authenticationResultEvent.emit(true);
       },
@@ -28,6 +26,7 @@ export class AuthService {
   }
 
   getRole(): string {
+    /*
     if (this.jwtToken == null) {
       return null;
     }
@@ -37,5 +36,7 @@ export class AuthService {
     let parsedRole = JSON.parse(payload).role;
     console.log('AuthService:getRole:role=', parsedRole);
     return parsedRole;
+    */
+    return "ADMIN"; // todo: this constant role is temporary, need to fix it later
   }
 }

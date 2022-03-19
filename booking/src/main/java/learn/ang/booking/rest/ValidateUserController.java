@@ -30,10 +30,9 @@ public class ValidateUserController {
         // We expect the user to have one role such as "role_admin" or "role_user".
         String role = currentUser.getAuthorities().toArray()[0].toString().substring(5);
         String token = jwtService.generateToken(name, role);
-        final Map<String, String> validationResult = Map.of("result", token);
         Cookie cookie = new Cookie("token", token);
         cookie.setPath("/api");
         response.addCookie(cookie);
-        return validationResult;
+        return Map.of("result", "ok");
     }
 }

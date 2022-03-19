@@ -32,8 +32,7 @@ export class RoomEditComponent implements OnInit, OnDestroy {
 
   constructor(private formBuilder: FormBuilder, private dataService: DataService,
               private router: Router,
-              private formResetService: FormResetService,
-              private authService: AuthService) {
+              private formResetService: FormResetService) {
     for(let layout of this.layouts) {
       // @ts-ignore
       let layoutDescription = Layout[layout];
@@ -96,7 +95,7 @@ export class RoomEditComponent implements OnInit, OnDestroy {
         error => this.message = 'Something went wrong, you may wish to try again.'
       );
     } else {
-      this.dataService.updateRoom(this.room, this.authService.jwtToken).subscribe(
+      this.dataService.updateRoom(this.room).subscribe(
         next => {
           this.dataChangedEvent.emit();
           this.navigateToView(next);

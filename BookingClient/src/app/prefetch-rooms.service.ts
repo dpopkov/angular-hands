@@ -10,10 +10,9 @@ import {AuthService} from "./auth.service";
 })
 export class PrefetchRoomsService implements Resolve<Observable<Array<Room>>>{
 
-  constructor(private dataService: DataService,
-              private authService: AuthService) { }
+  constructor(private dataService: DataService) { }
 
   resolve(): Observable<Array<Room>> {
-    return this.dataService.getRooms(this.authService.jwtToken);
+    return this.dataService.getRooms();
   }
 }
