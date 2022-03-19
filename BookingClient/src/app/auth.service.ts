@@ -41,4 +41,15 @@ export class AuthService {
     console.log('AuthService:roleIsAdmin:isAdmin=', isAdmin); // for debug
     return isAdmin;
   }
+
+  checkIfAlreadyAuthenticated() {
+    this.dataService.getRole().subscribe(
+      next => {
+        if (next.role !== '') {
+          this.isAuthenticated = true;
+          this.authenticationResultEvent.emit(true);
+        }
+      }
+    )
+  }
 }
