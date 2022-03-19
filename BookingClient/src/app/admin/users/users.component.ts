@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {User} from "../../model/User";
 import {DataService} from "../../data.service";
 import {ActivatedRoute, Router} from "@angular/router";
 import {FormResetService} from "../../form-reset.service";
+import {Subscription} from "rxjs";
+import {AuthService} from "../../auth.service";
 
 @Component({
   selector: 'app-users',
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css']
 })
-export class UsersComponent implements OnInit {
+export class UsersComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   users: Array<User>
@@ -19,14 +21,29 @@ export class UsersComponent implements OnInit {
   action: string;
   loadingData: boolean = true;
   message = 'Please wait... getting the list of users';
+  isAdminUser: boolean = false;
+  subscription: Subscription;
 
   constructor(private dataService: DataService,
               private route: ActivatedRoute,
               private router: Router,
-              private formResetService: FormResetService) { }
+              private formResetService: FormResetService,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadData();
+    if (this.authService.role === 'ADMIN') {
+      this.isAdminUser = true;
+    }
+    this.subscription = this.authService.roleSetEvent.subscribe(
+      next => {
+        this.isAdminUser = (next === 'ADMIN');
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   loadData() {

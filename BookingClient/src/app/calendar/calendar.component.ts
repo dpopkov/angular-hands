@@ -1,28 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {DataService} from "../data.service";
 import {Booking} from "../model/Booking";
 import {ActivatedRoute, Router} from "@angular/router";
 import {formatDate} from "@angular/common";
+import {Subscription} from "rxjs";
+import {AuthService} from "../auth.service";
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
   styleUrls: ['./calendar.component.css']
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   bookings: Array<Booking>;
   selectedDate: string;
   dataLoaded = false;
   message = '';
+  isAdminUser: boolean = false;
+  subscription: Subscription;
 
   constructor(private dataService: DataService,
               private router: Router,
-              private route: ActivatedRoute) { }
+              private route: ActivatedRoute,
+              private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loadData();
+    if (this.authService.role === 'ADMIN') {
+      this.isAdminUser = true;
+    }
+    this.subscription = this.authService.roleSetEvent.subscribe(
+      next => {
+        this.isAdminUser = (next === 'ADMIN');
+      }
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   private loadData(): void {

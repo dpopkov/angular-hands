@@ -2,9 +2,11 @@
   <h2>User details</h2>
   <a class="btn btn-small btn-warning"
      (click)="editUser()"
+     *ngIf="isAdminUser"
   >edit</a>
   <a class="btn btn-small btn-warning"
     (click)="deleteUser()"
+     *ngIf="isAdminUser"
   >delete</a>
   <div class="bg-warning p-5" *ngIf="message">{{ message }}</div>
   <table>
@@ -16,7 +18,7 @@
       <td>name</td>
       <td>{{ user?.name }}</td>
     </tr>
-    <tr>
+    <tr *ngIf="isAdminUser">
       <td>Password</td>
       <td><a class="btn btn-small btn-warning"
              (click)="resetPassword()"

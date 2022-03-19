@@ -26,7 +26,7 @@ export class DataService {
   }
 
   getUsers(): Observable<Array<User>> {
-    return this.http.get<Array<User>>(environment.restUrl + '/api/users')
+    return this.http.get<Array<User>>(environment.restUrl + '/api/users', {withCredentials: true})
       .pipe(
         map(data => {
           const users = new Array<User>();
@@ -39,7 +39,7 @@ export class DataService {
   }
 
   getBookings(date: string): Observable<Array<Booking>> {
-    return this.http.get<Array<Booking>>(environment.restUrl + '/api/bookings/' + date)
+    return this.http.get<Array<Booking>>(environment.restUrl + '/api/bookings/' + date, {withCredentials: true})
       .pipe(map(data => {
         const bookings = new Array<Booking>();
         for (const bookingData of data) {
@@ -50,7 +50,7 @@ export class DataService {
   }
 
   getBookingById(id: number): Observable<Booking> {
-    return this.http.get<Booking>(environment.restUrl + '/api/bookings?id=' + id)
+    return this.http.get<Booking>(environment.restUrl + '/api/bookings?id=' + id, {withCredentials: true})
       .pipe(map(data => Booking.fromHttp(data)));
   }
 
@@ -59,7 +59,7 @@ export class DataService {
   }
 
   updateUser(toUpdate: User): Observable<User> {
-    return this.http.put<User>(environment.restUrl + '/api/users', toUpdate)
+    return this.http.put<User>(environment.restUrl + '/api/users', toUpdate, {withCredentials: true})
       .pipe(map(data =>  User.fromHttp(data)));
   }
 
@@ -69,7 +69,7 @@ export class DataService {
       name: newUser.name,
       password: userPassword
     };
-    return this.http.post<User>(environment.restUrl + '/api/users', fullUser)
+    return this.http.post<User>(environment.restUrl + '/api/users', fullUser, {withCredentials: true})
       .pipe(map(data => User.fromHttp(data)));
   }
 
@@ -80,7 +80,8 @@ export class DataService {
   }
 
   addRoom(newRoom: Room): Observable<Room> {
-    return this.http.post<Room>(environment.restUrl + '/api/rooms', this.getCorrectedRoom(newRoom))
+    return this.http.post<Room>(environment.restUrl + '/api/rooms', this.getCorrectedRoom(newRoom),
+                          {withCredentials: true})
       .pipe(map(data => Room.fromHttp(data)));
   }
 
@@ -108,15 +109,15 @@ export class DataService {
   }
 
   deleteRoom(id: number): Observable<any> {
-    return this.http.delete(environment.restUrl + '/api/rooms/' + id);
+    return this.http.delete(environment.restUrl + '/api/rooms/' + id, {withCredentials: true});
   }
 
   deleteUser(id: number): Observable<any> {
-    return this.http.delete(environment.restUrl + '/api/users/' + id);
+    return this.http.delete(environment.restUrl + '/api/users/' + id, {withCredentials: true});
   }
 
   resetUserPassword(id: number): Observable<any> {
-    return this.http.get(environment.restUrl + '/api/users/resetPassword/' + id);
+    return this.http.get(environment.restUrl + '/api/users/resetPassword/' + id, {withCredentials: true});
   }
 
   getLayoutMap(): Map<string, string> {
@@ -130,12 +131,14 @@ export class DataService {
   }
 
   saveBooking(booking: Booking): Observable<Booking> {
-    return this.http.put<Booking>(environment.restUrl + '/api/bookings', this.getCorrectedBooking(booking))
+    return this.http.put<Booking>(environment.restUrl + '/api/bookings', this.getCorrectedBooking(booking),
+                          {withCredentials: true})
       .pipe(map(data => Booking.fromHttp(data)));
   }
 
   addBooking(newBooking: Booking): Observable<Booking> {
-    return this.http.post<Booking>(environment.restUrl + '/api/bookings', this.getCorrectedBooking(newBooking))
+    return this.http.post<Booking>(environment.restUrl + '/api/bookings', this.getCorrectedBooking(newBooking),
+                            {withCredentials: true})
       .pipe(map(data => Booking.fromHttp(data)));
   }
 
@@ -172,7 +175,7 @@ export class DataService {
   }
 
   deleteBooking(bookingId: number): Observable<any> {
-    return this.http.delete(environment.restUrl + '/api/bookings/' + bookingId);
+    return this.http.delete(environment.restUrl + '/api/bookings/' + bookingId, {withCredentials: true});
   }
 
   validateUser(name: string, password: string) : Observable<{result: string}> {
