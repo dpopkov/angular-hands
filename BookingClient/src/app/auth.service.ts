@@ -18,12 +18,10 @@ export class AuthService {
     this.dataService.validateUser(name, password).subscribe(
       next => {
         this.setupRole();
-        this.isAuthenticated = true;
-        this.authenticationResultEvent.emit(true);
+        this.setIsAuthenticated(true);
       },
       error => {
-        this.isAuthenticated = false;
-        this.authenticationResultEvent.emit(false);
+        this.setIsAuthenticated(false);
       }
     )
   }
@@ -31,8 +29,7 @@ export class AuthService {
   setupRole(): void {
     this.dataService.getRole().subscribe(
       next => {
-        this.role = next.role;
-        this.roleSetEvent.emit(this.role);
+        this.setRole(next.role);
       }
     )
   }
@@ -41,12 +38,26 @@ export class AuthService {
     this.dataService.getRole().subscribe(
       next => {
         if (next.role !== '') {
-          this.role = next.role;
-          this.roleSetEvent.emit(this.role);
-          this.isAuthenticated = true;
-          this.authenticationResultEvent.emit(true);
+          this.setRole(next.role);
+          this.setIsAuthenticated(true);
         }
       }
     )
+  }
+
+  logout() {
+    this.dataService.logout().subscribe();
+    this.setIsAuthenticated(false);
+    this.setRole('');
+  }
+
+  private setRole(role: string): void {
+    this.role = role;
+    this.roleSetEvent.emit(this.role);
+  }
+
+  private setIsAuthenticated(value: boolean): void {
+    this.isAuthenticated = value;
+    this.authenticationResultEvent.emit(this.isAuthenticated);
   }
 }

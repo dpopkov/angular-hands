@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -69,5 +71,17 @@ public class RestUserController {
         User user = userRepository.findById(userId).orElseThrow();
         user.setPassword("secret");
         userRepository.save(user);
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpServletResponse response) {
+        Cookie cookie = new Cookie("token", null);
+        cookie.setPath("/api");
+        cookie.setHttpOnly(true);
+        cookie.setMaxAge(0);
+        // TODO: when in prod must cookie.setSecure(true);
+        response.addCookie(cookie);
+        SecurityContextHolder.getContext().setAuthentication(null);
+        return "";
     }
 }

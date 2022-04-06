@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Layout, Room} from "./model/Room";
 import {User} from "./model/User";
-import {Observable, of} from "rxjs";
+import {Observable} from "rxjs";
 import {Booking} from "./model/Booking";
 import {environment} from "../environments/environment";
 import {HttpClient, HttpHeaders} from "@angular/common/http";
@@ -189,5 +189,9 @@ export class DataService {
     const headers = new HttpHeaders().append('X-Requested-With', 'XMLHttpRequest');
     return this.http.get<{role: string}>(environment.restUrl + '/api/users/currentUserRole',
                                         {headers: headers, withCredentials: true});
+  }
+
+  logout(): Observable<String> {
+    return this.http.get<string>(environment.restUrl + '/api/users/logout', {withCredentials: true});
   }
 }
